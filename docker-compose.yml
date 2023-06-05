@@ -1,0 +1,12 @@
+version: "3.8"
+   
+services:
+
+  athena:
+    build: .
+    container_name: athena
+    hostname: athena
+    volumes:
+      - .:/app
+    ports:
+      - "9001:9001"

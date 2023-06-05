@@ -1,0 +1,6 @@
+max_width = 96
+reorder_imports = true
+
+# Only with nightly
+# imports_granularity="Crate"
+# indent_style = "Block"
