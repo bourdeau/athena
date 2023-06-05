@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  test:
+  linter:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,20 +17,20 @@ jobs:
     - name: Start services
       uses: isbang/compose-action@v1.4.1
       with:
-        compose-file: "./docker-compose.yml"
+        compose-file: "./docker compose.yml"
 
     - name: Start services
       run: |
-        docker-compose up -d --build
+        docker compose up -d --build
 
     - name: List services
       run: |
-        docker-compose ps
+        docker compose ps
 
     - name: Cargo fmt
       run: |
-        docker-compose exec athena cargo fmt --all -- --check
+        docker compose exec athena cargo fmt --all -- --check
 
     - name: Cargo fmt
       run: |
-        docker-compose exec athena cargo clippy
+        docker compose exec athena cargo clippy
