@@ -10,3 +10,7 @@ services:
       - .:/app
     ports:
       - "9001:9001"
+  resources:
+    limits:
+      cpus: 1
+      memory: 500M
