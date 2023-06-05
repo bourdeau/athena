@@ -45,7 +45,9 @@ impl Inventory for StoreInventory {
         let item = request.into_inner();
 
         let sku = match item.identifier.as_ref() {
-            Some(id) if id.sku.is_empty() => return Err(Status::invalid_argument(EMPTY_SKU_ERR)),
+            Some(id) if id.sku.is_empty() => {
+                return Err(Status::invalid_argument(EMPTY_SKU_ERR))
+            }
             Some(id) => id.sku.to_owned(),
             None => return Err(Status::invalid_argument(NO_ID_ERR)),
         };
