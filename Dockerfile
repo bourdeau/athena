@@ -15,6 +15,8 @@ RUN set -eux; \
     ; \
     rm -rf /var/lib/apt/lists/*
 
+RUN rustup component add rustfmt clippy
+
 USER app
 WORKDIR /app
 COPY --chown=app:app . /app

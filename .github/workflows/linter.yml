@@ -1,4 +1,4 @@
-name: linter
+name: build
 
 on:
   pull_request:
@@ -7,38 +7,31 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  check:
-    name: check
+  linter:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          toolchain: stable
-          components: rustfmt
-      - run: cargo check
 
-  fmt:
-    name: fmt
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          toolchain: stable
-          components: rustfmt
-      - run: cargo fmt --all -- --check
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-  clippy:
-    name: clippy
-    runs-on: ubuntu-latest
-    permissions:
-      checks: write # to add clippy checks to PR diffs
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          toolchain: stable
-          components: clippy
-          override: true
-      - run: cargo clippy
+    - name: Start services
+      uses: isbang/compose-action@v1.4.1
+      with:
+        compose-file: "./docker compose.yml"
+
+    - name: Start services
+      run: |
+        docker compose up -d --build
+
+    - name: List services
+      run: |
+        docker compose ps
+
+    ## Clippy seems to consume too much memory (exit 137)
+    # - name: Cargo clippy
+    #   run: |
+    #     docker compose exec athena cargo clippy
+
+    - name: Cargo fmt
+      run: |
+        docker compose exec athena cargo fmt --all -- --check
