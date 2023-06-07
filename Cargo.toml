@@ -28,7 +28,7 @@ futures = "0.3"
 clap = { version = "4.1.4", features = ["derive"] }
 
 [build-dependencies]
-tonic-build = "0.8"
+tonic-build = "0.9"
 
 [dev-dependencies]
 uuid = { version = "1.2.2", features = ["v4", "fast-rng"] }
